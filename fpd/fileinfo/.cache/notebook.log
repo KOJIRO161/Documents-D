@@ -1,0 +1,35 @@
+DEBUG      2025-08-12 11:52:31,868 [1617289364.py:79] [Activate workspace]: c:\Users\okaza\pythonenv\fpd\fileinfo
+DEBUG      2025-08-12 11:52:31,869 [1617289364.py:80] [Set cache]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache
+DEBUG      2025-08-12 11:52:31,869 [1617289364.py:81] [Activate log]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache\notebook.log
+DEBUG      2025-08-12 11:52:31,870 [1617289364.py:85] [Create global variable]: data
+INFO       2025-08-12 11:52:31,870 [1617289364.py:91] [Set json for save inputs]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache\input.json
+DEBUG      2025-08-12 11:54:19,999 [2155881028.py:80] [Activate workspace]: c:\Users\okaza\pythonenv\fpd\fileinfo
+DEBUG      2025-08-12 11:54:19,999 [2155881028.py:80] [Activate workspace]: c:\Users\okaza\pythonenv\fpd\fileinfo
+DEBUG      2025-08-12 11:54:20,001 [2155881028.py:81] [Set cache]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache
+DEBUG      2025-08-12 11:54:20,001 [2155881028.py:81] [Set cache]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache
+DEBUG      2025-08-12 11:54:20,002 [2155881028.py:82] [Activate log]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache\notebook.log
+DEBUG      2025-08-12 11:54:20,002 [2155881028.py:82] [Activate log]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache\notebook.log
+DEBUG      2025-08-12 11:54:20,003 [2155881028.py:86] [Create global variable]: data
+DEBUG      2025-08-12 11:54:20,003 [2155881028.py:86] [Create global variable]: data
+DEBUG      2025-08-12 11:54:40,229 [3131026358.py:80] [Activate workspace]: c:\Users\okaza\pythonenv\fpd\fileinfo
+DEBUG      2025-08-12 11:54:40,229 [3131026358.py:80] [Activate workspace]: c:\Users\okaza\pythonenv\fpd\fileinfo
+DEBUG      2025-08-12 11:54:40,229 [3131026358.py:80] [Activate workspace]: c:\Users\okaza\pythonenv\fpd\fileinfo
+DEBUG      2025-08-12 11:54:40,231 [3131026358.py:81] [Set cache]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache
+DEBUG      2025-08-12 11:54:40,231 [3131026358.py:81] [Set cache]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache
+DEBUG      2025-08-12 11:54:40,231 [3131026358.py:81] [Set cache]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache
+DEBUG      2025-08-12 11:54:40,232 [3131026358.py:82] [Activate log]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache\notebook.log
+DEBUG      2025-08-12 11:54:40,232 [3131026358.py:82] [Activate log]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache\notebook.log
+DEBUG      2025-08-12 11:54:40,232 [3131026358.py:82] [Activate log]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache\notebook.log
+DEBUG      2025-08-12 11:54:40,234 [3131026358.py:86] [Create global variable]: data
+DEBUG      2025-08-12 11:54:40,234 [3131026358.py:86] [Create global variable]: data
+DEBUG      2025-08-12 11:54:40,234 [3131026358.py:86] [Create global variable]: data
+DEBUG      2025-08-12 11:55:00,803 [2155881028.py:80] [Activate workspace]: c:\Users\okaza\pythonenv\fpd\fileinfo
+DEBUG      2025-08-12 11:55:00,804 [2155881028.py:81] [Set cache]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache
+DEBUG      2025-08-12 11:55:00,805 [2155881028.py:82] [Activate log]: c:\Users\okaza\pythonenv\fpd\fileinfo\.cache\notebook.log
+DEBUG      2025-08-12 11:55:00,805 [2155881028.py:86] [Create global variable]: data
+DEBUG      2025-08-12 11:55:59,454 [330259994.py:25] Read filenames
+DEBUG      2025-08-12 11:55:59,455 [330259994.py:29] Sort the file name list
+INFO       2025-08-12 11:55:59,457 [330259994.py:43] [Add variables]: set_filelist
+DEBUG      2025-08-12 12:01:07,909 [4156246839.py:25] Read filenames
+DEBUG      2025-08-12 12:01:07,911 [4156246839.py:29] Sort the file name list
+INFO       2025-08-12 12:01:07,913 [4156246839.py:43] [Add variables]: set_filelist

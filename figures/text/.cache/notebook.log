@@ -1,0 +1,10 @@
+DEBUG      2025-04-21 16:12:35,943 [1674221980.py:68] [Activate workspace]: c:\Users\okaza\pythonenv\figures\text
+DEBUG      2025-04-21 16:12:35,944 [1674221980.py:69] [Set cache]: c:\Users\okaza\pythonenv\figures\text\.cache
+DEBUG      2025-04-21 16:12:35,945 [1674221980.py:70] [Activate log]: c:\Users\okaza\pythonenv\figures\text\.cache\notebook.log
+DEBUG      2025-04-21 16:12:35,946 [1674221980.py:75] [Activate json]: c:\Users\okaza\pythonenv\figures\text\.cache\config.json
+DEBUG      2025-04-21 16:12:35,987 [1674221980.py:79] [Activate png]: c:\Users\okaza\pythonenv\figures\text\.cache\img.png
+DEBUG      2025-05-15 19:28:00,819 [1674221980.py:68] [Activate workspace]: c:\Users\okaza\pythonenv\figures\text
+DEBUG      2025-05-15 19:28:00,821 [1674221980.py:69] [Set cache]: c:\Users\okaza\pythonenv\figures\text\.cache
+DEBUG      2025-05-15 19:28:00,822 [1674221980.py:70] [Activate log]: c:\Users\okaza\pythonenv\figures\text\.cache\notebook.log
+DEBUG      2025-05-15 19:28:00,823 [1674221980.py:75] [Activate json]: c:\Users\okaza\pythonenv\figures\text\.cache\config.json
+DEBUG      2025-05-15 19:28:00,876 [1674221980.py:79] [Activate png]: c:\Users\okaza\pythonenv\figures\text\.cache\img.png
