@@ -2,7 +2,9 @@
 # .lab
 
 """更新履歴"""
-# 2025-12-1 作成
+# 2025-12-17 integrated1dを追加しました
+# 2025-12-17 生データを作成しなくても積算できるようにしました。
+# 2025-12-01 作成
 
 """モジュール読み込み"""
 # ファイル操作等
@@ -50,7 +52,7 @@ import threading
 import concurrent.futures as confu
 from modules.Mytools.Tools import his2array
 
-class Integrate2D_anim:
+class Create_Hdfdata:
     def __init__(self,
                  name = "",
                  clear_cachedir: bool = False,
@@ -79,12 +81,6 @@ class Integrate2D_anim:
 
         self.filelist: list = []
 
-        # get_rawdata
-        self._rawhdf = os.path.join(self.cachedir, "raw.hdf")
-
-        # integrate2d
-        self._integratedhdf = os.path.join(self.cachedir, "integrated.hdf")
-
     def askopenfilename(self,
                         filetypes: list) -> str:
         """
@@ -102,14 +98,14 @@ class Integrate2D_anim:
     def get_rawdata(self) -> str:
 
         # 生データをhdfで保存
-        self._rawhdf = os.path.join(self.cachedir, "raw.hdf")
+        rawhdf = os.path.join(self.cachedir, self.name + "_raw.hdf")
 
-        with h5py.File(self._rawhdf, mode = "w"):
+        with h5py.File(rawhdf, mode = "w"):
             pass
 
         for i, filename in enumerate(self.filelist):
             d = his2array(filename)
-            with h5py.File(self._rawhdf, mode = "r+") as f:
+            with h5py.File(rawhdf, mode = "r+") as f:
                 f.create_dataset(
                     name = "frame = {}".format(i),
                     data = d,
@@ -121,19 +117,31 @@ class Integrate2D_anim:
 
         if self.log:
             print("\nRaw data saved.")
-            with h5py.File(self._rawhdf, mode = "r") as f:
+            with h5py.File(rawhdf, mode = "r") as f:
                 h5_tree(f)
 
         # 出力
-        return self._rawhdf
+        return rawhdf
         
     def integrate2D(self,
                     poni: str,
                     npt_rad: int,
                     npt_azim: int,
-                    radial_range = None):
+                    radial_range = None,
+                    rawhdf: str = ""):
         
-        with h5py.File(self._integratedhdf, mode = "w") as f:
+        # 生データをhdfファイルとして保存しているかどうかを確認する。
+        # hdfファイルが読み込めるかどうかを確認する
+        if rawhdf == "":
+            flag_readhdf = False
+        else:
+            flag_readhdf = True
+            with h5py.File(rawhdf, moder = "r") as f:
+                if self.log:
+                    h5_tree(f)
+        
+        integratedhdf = os.path.join(self.cachedir, self.name + "_integrate2d.hdf")
+        with h5py.File(integratedhdf, mode = "w") as f:
             f.create_dataset(
                 name = "rad",
                 shape = (npt_rad,),
@@ -158,9 +166,16 @@ class Integrate2D_anim:
         lock = threading.Lock()
 
         def integrate2d(i):
-            with lock:
-                with h5py.File(self._rawhdf, mode = "r") as f:
-                    d = f["frame = {}".format(i)][()] # type: ignore
+
+            # データを読み込む
+            if flag_readhdf:
+                with lock:
+                    with h5py.File(rawhdf, mode = "r") as f:
+                        d = f["frame = {}".format(i)][()] # type: ignore
+            else:
+                d = his2array(self.filelist[i])
+
+            # unrollする
             intensity, radial, azimuthal = ai.integrate2d(
                 data = d,
                 npt_rad = npt_rad,
@@ -171,13 +186,17 @@ class Integrate2D_anim:
             )
             return i, intensity, radial, azimuthal
 
+        # 平行作業を行う
         with confu.ThreadPoolExecutor(max_workers=os.cpu_count()) as tpe:
+
+            # 指示出し
             futures = [tpe.submit(integrate2d, i) for i in range(len(self.filelist))]
 
+            # データ回収
             for i, future in enumerate(confu.as_completed(futures)):
                 j, intensity, radial, azimuthal = future.result()
                 with lock:
-                    with h5py.File(self._integratedhdf, mode = "r+") as f:
+                    with h5py.File(integratedhdf, mode = "r+") as f:
                         if not i:
                             f["rad"][:] = radial # type: ignore
                             f["azim"][:] = azimuthal # type: ignore
@@ -185,9 +204,91 @@ class Integrate2D_anim:
                 if self.log:
                     simple_progress_bar(i+1, len(self.filelist))
 
+        # 出力
         if self.log:
             print("\nIntegration completed.")
-            with h5py.File(self._integratedhdf, mode = "r") as f:
+            with h5py.File(integratedhdf, mode = "r") as f:
                 h5_tree(f)       
 
-        return
+        return integratedhdf    
+        
+    def integrate1D(self,
+                    poni: str,
+                    npt_rad: int,
+                    radial_range = None,
+                    rawhdf: str = ""):
+        
+        # 生データをhdfファイルとして保存しているかどうかを確認する。
+        # hdfファイルが読み込めるかどうかを確認する
+        if rawhdf == "":
+            flag_readhdf = False
+        else:
+            flag_readhdf = True
+            with h5py.File(rawhdf, moder = "r") as f:
+                if self.log:
+                    h5_tree(f)
+        
+        integratedhdf = os.path.join(self.cachedir, self.name + "_integrate1d.hdf")
+        with h5py.File(integratedhdf, mode = "w") as f:
+            f.create_dataset(
+                name = "rad",
+                shape = (npt_rad,),
+                dtype = np.float32,
+            )
+            g = f.create_group(
+                name = "integrated"
+            )
+            for i in (tqdm(range(len(self.filelist))) if self.log else range(len(self.filelist))):
+                g.create_dataset(
+                    name = "frame = {}".format(i),
+                    shape = (npt_rad,),
+                    dtype = np.float32
+                )
+        
+        ai = pyFAI.load(poni)
+        lock = threading.Lock()
+
+        def integrate2d(i):
+
+            # データを読み込む
+            if flag_readhdf:
+                with lock:
+                    with h5py.File(rawhdf, mode = "r") as f:
+                        d = f["frame = {}".format(i)][()] # type: ignore
+            else:
+                d = his2array(self.filelist[i])
+
+            # 積算する
+            radial, intensity = ai.integrate1d(
+                data = d,
+                npt = npt_rad,
+                radial_range=radial_range,
+                unit = "2th_deg",
+                method = "ocl"
+            )
+            return i, intensity, radial
+
+        # 平行作業を行う
+        with confu.ThreadPoolExecutor(max_workers=os.cpu_count()) as tpe:
+
+            # 指示出し
+            futures = [tpe.submit(integrate2d, i) for i in range(len(self.filelist))]
+
+            # データ回収
+            for i, future in enumerate(confu.as_completed(futures)):
+                j, intensity, radial = future.result()
+                with lock:
+                    with h5py.File(integratedhdf, mode = "r+") as f:
+                        if not i:
+                            f["rad"][:] = radial # type: ignore
+                        f["integrated/frame = {}".format(j)][:] = intensity # type: ignore
+                if self.log:
+                    simple_progress_bar(i+1, len(self.filelist))
+
+        # 出力
+        if self.log:
+            print("\nIntegration completed.")
+            with h5py.File(integratedhdf, mode = "r") as f:
+                h5_tree(f)       
+
+        return integratedhdf

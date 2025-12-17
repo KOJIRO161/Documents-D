@@ -413,7 +413,8 @@ class Widget:
     
 if __name__ == "__main__":
     path = askopenfilename(filetypes = [("HDF", ".hdf")])
-    # path = r"C:\Users\okaza\Documents\Documents\fpd\Integrate2D_anim\.cache\integrated.hdf"
     widget = Widget(path = path, resize_width = 150)
     app = widget.create_dash()
-    app.run(debug = True, use_reloader = False)
+    app.run(debug = True,
+            use_reloader = False,
+            port = 8025)
