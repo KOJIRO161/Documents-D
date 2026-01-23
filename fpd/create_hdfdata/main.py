@@ -20,6 +20,7 @@ import h5py
 # import threading
 # import json
 # import shutil
+import warnings
 
 # tkinter
 from tkinter import filedialog, messagebox, Tk
@@ -51,6 +52,8 @@ from modules.Mytools.Tools import print_fileinfo, h5_tree, dict_tree, simple_pro
 import threading
 import concurrent.futures as confu
 from modules.Mytools.Tools import his2array
+
+warnings.simplefilter("ignore")
 
 class Create_Hdfdata:
     def __init__(self,
