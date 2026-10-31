@@ -1,0 +1,5 @@
+Linear -> Dense
+Uhmb et al.では
+
+Neuronの数によるValidationの違い
+
